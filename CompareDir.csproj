@@ -89,6 +89,8 @@
     <Content Include="ProgressWindowWrapper.txt" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IRow.cs" />
+    <None Include="README" />
+    <None Include="LICENSE" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,0 +1,11 @@
+﻿Usage: CompareDir [-g/-fhirx] [left right [center]]
+If less than two directories are given, -g will be assumed.
+  -g: use GUI for everything (overrides all other options)
+  -i: use GUI to ask for directories and recursive setting (overrides -r)
+  -r: search recursively
+  -f: show only filenames, not relative paths
+  -h: output as color-coded HTML instead of plain text
+  -x: write to (and launch) a file on the desktop
+
+  -a: display About dialog
+  -l: display license terms
