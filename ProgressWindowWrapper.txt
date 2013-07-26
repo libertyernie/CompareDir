@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Reflection;
+using System.Threading;
+using System.Windows.Forms;
+
+namespace CompareDir
+{
+    internal class ProgressWindowWrapper : IDisposable
+    {
+        private object pw;
+        private Loading backup;
+		private Thread backupThread;
+
+        private bool textOnly;
+        private float min, max;
+        private int asterisks;
+
+		public string Caption {
+			set {
+                if (textOnly) {
+
+                } else if (pw != null) {
+                    pw.GetType().InvokeMember("Caption", BindingFlags.SetProperty, null, pw, new object[] { value });
+                } else {
+                    backup.Caption = value;
+                }
+			}
+		}
+
+        public ProgressWindowWrapper(Control owner, string title, string caption, bool canCancel, bool textOnly)
+        {
+            this.textOnly = textOnly;
+            if (textOnly) {
+                Console.Error.WriteLine(title + (caption == null ? "" : " - " + caption));
+            } else if (Program.BrawlLib != null) {
+                Type type = Program.BrawlLib.GetType("System.Windows.Forms.ProgressWindow");
+				pw = type.GetConstructor(new Type[] { typeof(Control), typeof(string), typeof(string), typeof(bool) })
+					.Invoke(new object[] { owner, title, caption, canCancel });
+			} else {
+				backup = new Loading(caption) { Text = title };
+				backupThread = new Thread(new ThreadStart(delegate() {
+					Application.Run(backup);
+				}));
+            }
+        }
+
+        public void Begin(float min, float max, float value) {
+            this.min = min;
+            this.max = max;
+            if (textOnly) {
+                Console.Error.Write('[');
+                asterisks = (int)((78 * value - min) / (max - min));
+                Console.Error.Write(new string('*', asterisks));
+			} else if (pw != null) {
+				pw.GetType().InvokeMember("Begin", BindingFlags.InvokeMethod, null, pw, new object[] { min, max, value });
+			} else {
+				backupThread.Start();
+			}
+        }
+
+        public void Update(float value)
+        {
+            if (textOnly) {
+                int new_asterisks = (int)((78 * value - min) / (max - min));
+                if (new_asterisks != asterisks) {
+                    Console.Error.Write(new string('*', new_asterisks - asterisks));
+                    asterisks = new_asterisks;
+                }
+            } else if (pw != null) {
+                pw.GetType().InvokeMember("Update", BindingFlags.InvokeMethod, null, pw, new object[] { value });
+            }
+        }
+
+        public void Finish()
+        {
+            if (textOnly) {
+                Console.Error.WriteLine(']');
+            } else if (pw != null) {
+				pw.GetType().InvokeMember("Finish", BindingFlags.InvokeMethod, null, pw, null);
+			} else {
+				backupThread.Abort();
+			}
+        }
+
+        public bool Cancelled {
+            get {
+                if (textOnly) {
+                    return false;
+                } else if (pw != null) {
+                    return (bool)pw.GetType().InvokeMember("Cancelled", BindingFlags.GetProperty, null, pw, null);
+                } else {
+                    return !backup.Visible;
+                }
+            }
+        }
+
+		public void Dispose() {
+            IDisposable d = (IDisposable)pw ?? backup;
+			if (d != null) d.Dispose();
+		}
+	}
+}
