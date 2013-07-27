@@ -47,7 +47,7 @@ namespace CompareDir {
 
 			table.AutoScroll = false;
 
-			this.rows = generate(dirL, dirR, dirC, recursive, false, false);
+			this.rows = generate(dirL, dirR, dirC, recursive, true, false);
 
 			if (rows.Count > 100) {
 				var dr = MessageBox.Show(parent,
