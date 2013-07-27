@@ -22,6 +22,14 @@ namespace CompareDir {
 		public bool CenterMatchesLeft { get; private set; }
 		public bool CenterMatchesRight { get; private set; }
 
+		public bool FilenameOnly {
+			set {
+				foreach (var l in new FileLabel[] { Left, Center, Right }) {
+					l.FilenameOnly = value;
+				}
+			}
+		}
+
 		public FileLabelRow(FileLabel left, FileLabel center, FileLabel right) {
 			Left = left;
 			Center = center;

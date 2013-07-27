@@ -23,6 +23,8 @@ namespace CompareDir
 		public static readonly Tuple<Color, Color> Color_OnlyOne = new Tuple<Color, Color>(Color.FromArgb(64, 128, 192), Color.FromArgb(96, 192, 255));
 		public static readonly Tuple<Color, Color> Color_Orig = new Tuple<Color, Color>(Color.FromArgb(128, 128, 128), Color.FromArgb(192, 192, 192));
 
+		private string originalFilename;
+
 		private Tuple<Color, Color> _colors;
         public Tuple<Color, Color> Colors
         {
@@ -43,9 +45,18 @@ namespace CompareDir
 			}
 		}
 
+		public bool FilenameOnly {
+			set {
+				if (this.MD5 != null && originalFilename != null) {
+					Label.Text = (value ? File.Name : originalFilename);
+				}
+			}
+		}
+
 		public FileLabel(DirectoryInfo dir, string filename, bool filenameOnly = false)
             : this(dir == null ? null : new FileInfo(dir.FullName + "\\" + filename)) {
-                if (this.MD5 != null) Label.Text = filenameOnly ? File.Name : filename;
+				this.originalFilename = filename;
+				this.FilenameOnly = filenameOnly;
 		}
 
         public FileLabel(FileInfo f)

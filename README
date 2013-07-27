@@ -1,5 +1,4 @@
 ﻿Usage: CompareDir [-g/-fhirx] [left right [center]]
-If less than two directories are given, -g will be assumed.
   -g: use GUI for everything (overrides all other options)
   -i: use GUI to ask for directories and recursive setting (overrides -r)
   -r: search recursively
@@ -9,3 +8,5 @@ If less than two directories are given, -g will be assumed.
 
   -a: display About dialog
   -l: display license terms
+
+  If less than two directories are given, -i will be assumed; if no arguments are given, -g will be assumed.

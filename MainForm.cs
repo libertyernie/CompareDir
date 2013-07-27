@@ -16,30 +16,9 @@ namespace CompareDir {
 
 		private List<IRow> rows;
 		private bool recursive;
-		//private int maxlength;
-		//private bool textOnly;
 
-		/*public MainForm(DirectoryInfo dir1, DirectoryInfo dir2, MethodInfo method) {
-			this.dirL = dir1;
-			this.dirR = dir2;
-			this.dirC = null;
-			textOnly = true;
-
-			using (Form loading = new Loading(Program.BrawlLib != null ? "BrawlLib loaded" : "Select directory")) {
-				loading.Show();
-				if (dir1 == null || dir2 == null) {
-					bool b = changeLeftRight();
-					if (!b) Environment.Exit(0);
-				}
-				var dr = MessageBox.Show(this, "Do a recursive search?", this.Text,
-					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-				recursive = (dr == DialogResult.Yes);
-				refreshTable();
-				method.Invoke(null, new object[] { report() });
-			}
-		}*/
-
-		public MainForm(DirectoryInfo dir1, DirectoryInfo dir2, DirectoryInfo dir3, bool? recursiveOverride = null) {
+		public MainForm(DirectoryInfo dir1, DirectoryInfo dir2, DirectoryInfo dir3,
+						bool? recursiveOverride = null) {
 			this.dirL = dir1;
 			this.dirR = dir2;
 			this.dirC = dir3;
@@ -292,6 +271,16 @@ namespace CompareDir {
 					File.WriteAllText(d.FileName, html(rows));
 				}
 			}
+		}
+
+		private void filenamesOnlyToolStripMenuItem_Click(object sender, EventArgs e) {
+			bool v = ((ToolStripMenuItem)sender).Checked;
+			foreach (IRow row in rows) {
+				if (row is FileLabelRow) {
+					((FileLabelRow)row).FilenameOnly = v;
+				}
+			}
+			this.Update();
 		}
 	}
 }

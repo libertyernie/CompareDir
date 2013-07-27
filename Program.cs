@@ -17,20 +17,6 @@ namespace CompareDir
         /// </summary>
         [STAThread]
         public static int Main(string[] args) {
-			/*Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-			List<string> dirList = new List<string>();
-			foreach (string s in args) {
-				if (s != "-g") dirList.Add(s);
-			}
-
-			DirectoryInfo dir1 = (dirList.Count > 0 ? new DirectoryInfo(dirList[0]) : null);
-			DirectoryInfo dir2 = (dirList.Count > 1 ? new DirectoryInfo(dirList[1]) : null);
-			DirectoryInfo dir3 = (dirList.Count > 2 ? new DirectoryInfo(dirList[2]) : null);
-
-            Application.Run(new MainForm(dir1, dir2, dir3));*/
-
 			DirectoryInfo dir1 = null, dir2 = null, dirC = null;
 			bool gui = false;
 			bool recursive = false, filenameOnly = false, html = false, execute = false, interactive = false;
@@ -77,26 +63,28 @@ namespace CompareDir
 				}
 			}
 
-			gui = gui || (dir2 == null);
-			if (gui) {
+			if (gui || args.Length == 0) {
 				IntPtr handle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
 				ShowWindow(handle, 0);
 
 				Application.Run(new MainForm(dir1, dir2, dirC));
 				return 0;
 			} else {
-				if (interactive) {
-					if (dir2 == null) {
-						var r = StartupOptions.ChangeLeftRight(null, ref dir1, ref dir2);
-						if (!r) return 0;
+				if (interactive || (dir2 == null)) {
+					using (Form loading = new Loading("Select directory")) {
+						loading.Show();
+						if (dir2 == null) {
+							var r = StartupOptions.ChangeLeftRight(loading, ref dir1, ref dir2);
+							if (!r) return 0;
+						}
+						if (dirC == null && html) {
+							StartupOptions.ChangeCenter(loading, ref dirC);
+						} else if (dirC != null && !html) {
+							Console.Error.WriteLine("Plain text output only supports two directories");
+							return usage(1);
+						}
+						StartupOptions.AskRecursive(loading, ref recursive);
 					}
-					if (dirC == null && html) {
-						StartupOptions.ChangeCenter(null, ref dirC);
-					} else if (dirC != null && !html) {
-						Console.Error.WriteLine("Plain text output only supports two directories");
-						return usage(1);
-					}
-					StartupOptions.AskRecursive(null, ref recursive);
 				}
 
 				var rows = MainForm.generate(dir1, dir2, dirC, recursive, filenameOnly, true);
@@ -115,7 +103,6 @@ namespace CompareDir
 
 		private static int usage(int returnValue) {
 			Console.Error.WriteLine("Usage: CompareDir [-g/-fhirx] [left right [center]]");
-			Console.Error.WriteLine("If less than two directories are given, -g will be assumed.");
 			Console.Error.WriteLine("  -g: use GUI for everything (overrides all other options)");
 			Console.Error.WriteLine("  -i: use GUI to ask for directories and recursive setting (overrides -r)");
 			Console.Error.WriteLine("  -r: search recursively");
@@ -125,6 +112,8 @@ namespace CompareDir
 			Console.Error.WriteLine("");
 			Console.Error.WriteLine("  -a: display About dialog");
 			Console.Error.WriteLine("  -l: display license terms");
+			Console.Error.WriteLine("");
+			Console.Error.WriteLine("  If less than two directories are given, -i will be assumed; if no arguments are given, -g will be assumed.");
 			return returnValue;
 		}
     }
