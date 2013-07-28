@@ -95,12 +95,7 @@ namespace CompareDir
 				Form fd = new FileDisplay(this);
 				fd.Show();
 			} else if (e.Button == MouseButtons.Right) {
-				IDisposable node = BrawlLib.NodeFromFile(File.FullName);
-				Form form = BrawlLib.GetModelForm(node);
-				form.Disposed += delegate(object o, EventArgs e2) {
-					if (node != null) node.Dispose();
-				};
-				form.Show();
+				BrawlLib.BrawlView(File.FullName);
 			}
         }
 

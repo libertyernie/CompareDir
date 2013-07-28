@@ -31,7 +31,7 @@ namespace CompareDir
 				&& BrawlExts.Any(ext => _path.EndsWith(ext, StringComparison.InvariantCultureIgnoreCase))) {
 				node = BrawlLib.NodeFromFile(_path);
 				if (node != null) {
-					button1.Visible = (BrawlLib.BrawlView != null);
+					button1.Visible = (BrawlLib.BrawlViewPath != null);
 					lblInternalName.Text = BrawlLib.getAudioLengthIfAny(node) ?? node.ToString();
 					Disposed += delegate(object o, EventArgs e) {
 						node.Dispose();
@@ -57,12 +57,7 @@ namespace CompareDir
 		}
 
 		private void button1_Click(object sender, EventArgs e) {
-			this.Visible = false;
-			Form form = BrawlLib.GetModelForm(node);
-			form.Disposed += delegate(object o, EventArgs e2) {
-				this.Dispose();
-			};
-			form.Show();
+			BrawlLib.BrawlView(_path);
 		}
 	}
 }

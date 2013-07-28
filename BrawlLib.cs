@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace CompareDir {
 	public class BrawlLib {
 		public static Assembly Assembly = null;
-		public static Assembly BrawlView = null;
+		public static string BrawlViewPath = null;
 
 		static BrawlLib() {
 			if (File.Exists("BrawlLib.dll")) {
@@ -18,10 +18,12 @@ namespace CompareDir {
 				Assembly = Assembly.LoadFrom(Path.GetDirectoryName(Application.ExecutablePath) + "/BrawlLib.dll");
 			}
 			if (Assembly != null) {
-				if (File.Exists("BrawlView.exe")) {
-					BrawlView = Assembly.LoadFrom("BrawlView.exe");
-				} else if (File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + "/BrawlView.exe")) {
-					BrawlView = Assembly.LoadFrom(Path.GetDirectoryName(Application.ExecutablePath) + "/BrawlView.exe");
+				string[] bvsearch = { "BrawlView.exe", Path.GetDirectoryName(Application.ExecutablePath) + "/BrawlView.exe" };
+				foreach (string s in bvsearch) {
+					if (File.Exists(s)) {
+						BrawlViewPath = s;
+						break;
+					}
 				}
 			}
 		}
@@ -43,10 +45,10 @@ namespace CompareDir {
 			return new DateTime((10000000L * samples) / sampleRate).ToString("mm:ss.ff");
 		}
 
-		public static Form GetModelForm(IDisposable node) {
-			Type ModelForm = BrawlView.GetType("BrawlView.ModelForm");
-			Type ResourceNode = Assembly.GetType("BrawlLib.SSBB.ResourceNodes.ResourceNode");
-			return (Form)ModelForm.GetConstructor(new Type[] { ResourceNode }).Invoke(new object[] { node });
+		public static void BrawlView(string path) {
+			if (BrawlViewPath != null) {
+				System.Diagnostics.Process.Start(BrawlViewPath, '"' + path + '"');
+			}
 		}
 	}
 }
