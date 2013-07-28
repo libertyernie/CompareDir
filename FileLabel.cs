@@ -89,7 +89,13 @@ namespace CompareDir
         void FileLabel_Click(object sender, EventArgs e)
         {
             if (e is MouseEventArgs && ((MouseEventArgs)e).Button != MouseButtons.Left) return;
-            new FileDisplay(this).Show();
+			Form fd = new FileDisplay(this);
+			fd.Show();
+			Form parentform = this.Label.FindForm();
+			if (fd.Left > parentform.Left && fd.Left < parentform.Left + parentform.Width
+				&& fd.Right + parentform.Width < Screen.PrimaryScreen.Bounds.Width) {
+				fd.Left += parentform.Width;
+			}
         }
 
         void Label_MouseEnter(object sender, EventArgs e)
