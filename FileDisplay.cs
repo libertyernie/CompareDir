@@ -10,6 +10,7 @@ namespace CompareDir
 
 		private string _path;
 		private string _dir;
+		private IDisposable node;
 
 		public FileDisplay(FileLabel fl) {
 			InitializeComponent();
@@ -28,10 +29,13 @@ namespace CompareDir
 
 			if (BrawlLib.Assembly != null
 				&& BrawlExts.Any(ext => _path.EndsWith(ext, StringComparison.InvariantCultureIgnoreCase))) {
-				using (IDisposable node = BrawlLib.NodeFromFile(_path)) {
-					if (node != null) {
-						lblInternalName.Text = BrawlLib.getAudioLengthIfAny(node) ?? node.ToString();
-					}
+				node = BrawlLib.NodeFromFile(_path);
+				if (node != null) {
+					button1.Visible = true;
+					lblInternalName.Text = BrawlLib.getAudioLengthIfAny(node) ?? node.ToString();
+					Disposed += delegate(object o, EventArgs e) {
+						node.Dispose();
+					};
 				}
 			}
 		}
@@ -50,6 +54,10 @@ namespace CompareDir
 
 		private void btnOpenLocation_Click(object sender, EventArgs e) {
 			System.Diagnostics.Process.Start(_dir);
+		}
+
+		private void button1_Click(object sender, EventArgs e) {
+			BrawlLib.DisplayModel(node);
 		}
 	}
 }

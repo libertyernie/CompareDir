@@ -46,6 +46,7 @@
 			this.btnOkay = new System.Windows.Forms.Button();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.lblInternalName = new System.Windows.Forms.Label();
+			this.button1 = new System.Windows.Forms.Button();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
 			this.flowLayoutPanel3.SuspendLayout();
@@ -131,7 +132,7 @@
 			this.flowLayoutPanel3.AutoSize = true;
 			this.flowLayoutPanel3.Controls.Add(this.lblSize1);
 			this.flowLayoutPanel3.Controls.Add(this.lblSize2);
-			this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+			this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 13);
 			this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
 			this.flowLayoutPanel3.Size = new System.Drawing.Size(76, 13);
@@ -142,7 +143,7 @@
 			this.flowLayoutPanel4.AutoSize = true;
 			this.flowLayoutPanel4.Controls.Add(this.lblMD51);
 			this.flowLayoutPanel4.Controls.Add(this.lblMD52);
-			this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 35);
+			this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 26);
 			this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel4.Name = "flowLayoutPanel4";
 			this.flowLayoutPanel4.Size = new System.Drawing.Size(78, 13);
@@ -162,7 +163,7 @@
 			this.flowLayoutPanel5.AutoSize = true;
 			this.flowLayoutPanel5.Controls.Add(this.lblModified1);
 			this.flowLayoutPanel5.Controls.Add(this.lblModified2);
-			this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 54);
+			this.flowLayoutPanel5.Location = new System.Drawing.Point(0, 39);
 			this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel5.Name = "flowLayoutPanel5";
 			this.flowLayoutPanel5.Size = new System.Drawing.Size(100, 13);
@@ -229,6 +230,7 @@
 			this.tableLayoutPanel1.Controls.Add(this.btnOpenFile, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.btnOkay, 2, 1);
 			this.tableLayoutPanel1.Controls.Add(this.lblInternalName, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.button1, 1, 1);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 85);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -248,6 +250,18 @@
 			this.lblInternalName.Size = new System.Drawing.Size(170, 29);
 			this.lblInternalName.TabIndex = 3;
 			this.lblInternalName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// button1
+			// 
+			this.button1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.button1.Location = new System.Drawing.Point(119, 32);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(89, 23);
+			this.button1.TabIndex = 4;
+			this.button1.Text = "BrawlView";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Visible = false;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// FileDisplay
 			// 
@@ -294,6 +308,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
         private System.Windows.Forms.Label lblModified1;
         private System.Windows.Forms.Label lblModified2;
+		private System.Windows.Forms.Button button1;
 
     }
 }
