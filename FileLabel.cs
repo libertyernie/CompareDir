@@ -86,28 +86,27 @@ namespace CompareDir
             }
         }
 
-        void FileLabel_Click(object sender, EventArgs e)
+        void FileLabel_Click(object sender, EventArgs ea)
         {
-            if (e is MouseEventArgs && ((MouseEventArgs)e).Button != MouseButtons.Left) return;
-			Form fd = new FileDisplay(this);
-			fd.Show();
-			Form parentform = this.Label.FindForm();
-			if (fd.Left > parentform.Left && fd.Left < parentform.Left + parentform.Width
-				&& fd.Right + parentform.Width < Screen.PrimaryScreen.Bounds.Width) {
-				fd.Left += parentform.Width;
+			MouseEventArgs e = ea as MouseEventArgs;
+			if (e == null) return;
+
+			if (e.Button == MouseButtons.Left) {
+				Form fd = new FileDisplay(this);
+				fd.Show();
+			} else if (e.Button == MouseButtons.Right) {
+				IDisposable node = BrawlLib.NodeFromFile(File.FullName);
+				Form form = BrawlLib.GetModelForm(node);
+				form.Disposed += delegate(object o, EventArgs e2) {
+					if (node != null) node.Dispose();
+				};
+				form.Show();
 			}
         }
 
         void Label_MouseEnter(object sender, EventArgs e)
         {
             Label.BackColor = _colors.Item2;
-			/*Control c = Label;
-			bool parentHasFocus = false;
-			while (c.Parent != null && !parentHasFocus) {
-				parentHasFocus = c.Parent.Focused;
-				c = c.Parent;
-			}
-			Console.WriteLine(c + " " + parentHasFocus);*/
         }
 
         void Label_MouseLeave(object sender, EventArgs e)

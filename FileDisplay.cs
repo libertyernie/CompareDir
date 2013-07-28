@@ -18,7 +18,7 @@ namespace CompareDir
 
 			_path = fl.File.FullName;
 			_dir = fl.File.DirectoryName;
-			lblName2.Text = fl.File.Name;
+			this.Text = lblName2.Text = fl.File.Name;
 			lblSize2.Text = fl.File.Length.ToString("#,##0") + " bytes";
 			lblModified2.Text = fl.File.LastWriteTime.ToString();
 			StringBuilder sb = new StringBuilder(fl.MD5.Length * 2);
