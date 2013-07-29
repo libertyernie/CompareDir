@@ -95,7 +95,7 @@ namespace CompareDir
 				string report = html ? MainForm.html(rows) : MainForm.report(rows);
 				if (execute) {
 					string dir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-					string file = dir + "\\Comparison." + (html ? "html" : "txt");
+					string file = dir + "\\CompareDir-" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + (html ? ".html" : ".txt");
 					File.WriteAllText(file, report);
 					System.Diagnostics.Process.Start(file);
 				} else {
