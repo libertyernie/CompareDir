@@ -63,18 +63,19 @@ namespace CompareDir
 				}
 			}
 
-			if (gui || args.Length == 0) {
+			gui = gui || args.Length == 0;
+			interactive = interactive || dir2 == null;
+			bool hideConsole = gui || execute;
+			if (hideConsole) {
 				IntPtr handle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
 				ShowWindow(handle, 0);
+			}
 
+			if (gui) {
 				Application.Run(new MainForm(dir1, dir2, dirC));
 				return 0;
 			} else {
-				interactive = interactive || dir2 == null;
 				if (interactive) {
-					IntPtr handle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
-					ShowWindow(handle, 0);
-
 					using (Form loading = new Loading("Select directory")) {
 						loading.Show();
 						if (dir2 == null) {
@@ -90,8 +91,7 @@ namespace CompareDir
 						StartupOptions.AskRecursive(loading, ref recursive);
 					}
 				}
-
-				var rows = MainForm.generate(dir1, dir2, dirC, recursive, filenameOnly, !interactive);
+				var rows = MainForm.generate(dir1, dir2, dirC, recursive, filenameOnly, !hideConsole);
 				string report = html ? MainForm.html(rows) : MainForm.report(rows);
 				if (execute) {
 					string dir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
