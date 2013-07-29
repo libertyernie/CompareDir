@@ -180,15 +180,15 @@
 			this.lblRight2.Text = "888";
 			this.lblRight2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// CDirProgressWindow
+			// MatchProgressWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(292, 101);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Controls.Add(this.progressBar1);
-			this.Name = "CDirProgressWindow";
-			this.Text = "CDirProgressWindow";
+			this.Name = "MatchProgressWindow";
+			this.Text = "Please wait...";
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);
