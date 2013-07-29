@@ -70,7 +70,11 @@ namespace CompareDir
 				Application.Run(new MainForm(dir1, dir2, dirC));
 				return 0;
 			} else {
-				if (interactive || (dir2 == null)) {
+				interactive = interactive || dir2 == null;
+				if (interactive) {
+					IntPtr handle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+					ShowWindow(handle, 0);
+
 					using (Form loading = new Loading("Select directory")) {
 						loading.Show();
 						if (dir2 == null) {
@@ -87,7 +91,7 @@ namespace CompareDir
 					}
 				}
 
-				var rows = MainForm.generate(dir1, dir2, dirC, recursive, filenameOnly, true);
+				var rows = MainForm.generate(dir1, dir2, dirC, recursive, filenameOnly, !interactive);
 				string report = html ? MainForm.html(rows) : MainForm.report(rows);
 				if (execute) {
 					string dir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
