@@ -20,10 +20,14 @@ namespace CompareDir
 			DirectoryInfo dir1 = null, dir2 = null, dirC = null;
 			bool gui = false;
 			bool recursive = false, filenameOnly = false, html = false, execute = false, interactive = false;
+			string openWith = null;
 
 			foreach (string s in args) {
 				if (s == "--help" || s == "/?" || s == "/c") {
 					return usage(0);
+				} else if (s.StartsWith("--openwith=", StringComparison.InvariantCultureIgnoreCase)) {
+					execute = true;
+					openWith = s.Substring(11);
 				} else if (s == "-l") {
 					Console.Error.WriteLine(About.License);
 					return 0;
@@ -33,7 +37,10 @@ namespace CompareDir
 				} else if (s == "-g") {
 					gui = true;
 				} else if (s[0] == '-') {
-					foreach (char c in s.Substring(1)) {
+					if (s[1] == '-') {
+						Console.Error.WriteLine("Unrecognized parameter: " + s);
+						return usage(1);
+					} else foreach (char c in s.Substring(1)) {
 						if (c == 'r') {
 							recursive = true;
 						} else if (c == 'f') {
@@ -65,8 +72,8 @@ namespace CompareDir
 
 			gui = gui || args.Length == 0;
 			interactive = interactive || dir2 == null;
-			bool hideConsole = gui || execute;
-			if (hideConsole) {
+			bool useGuiProgressBar = gui || execute;
+			if (useGuiProgressBar) {
 				IntPtr handle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
 				ShowWindow(handle, 0);
 			}
@@ -91,13 +98,17 @@ namespace CompareDir
 						StartupOptions.AskRecursive(loading, ref recursive);
 					}
 				}
-				var rows = MainForm.generate(dir1, dir2, dirC, recursive, filenameOnly, !hideConsole);
+				var rows = MainForm.generate(dir1, dir2, dirC, recursive, filenameOnly, !useGuiProgressBar);
 				string report = html ? MainForm.html(rows) : MainForm.report(rows);
 				if (execute) {
 					string dir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 					string file = dir + "\\CompareDir-" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + (html ? ".html" : ".txt");
 					File.WriteAllText(file, report);
-					System.Diagnostics.Process.Start(file);
+					if (openWith != null) {
+						System.Diagnostics.Process.Start(openWith, '"' + file + '"');
+					} else {
+						System.Diagnostics.Process.Start(file);
+					}
 				} else {
 					Console.WriteLine(report);
 				}
