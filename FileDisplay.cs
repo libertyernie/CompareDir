@@ -27,16 +27,8 @@ namespace CompareDir
 			}
 			lblMD52.Text = sb.ToString();
 
-			if (BrawlLib.Assembly != null
-				&& BrawlExts.Any(ext => _path.EndsWith(ext, StringComparison.InvariantCultureIgnoreCase))) {
-				node = BrawlLib.NodeFromFile(_path);
-				if (node != null) {
-					button1.Visible = (BrawlLib.BrawlViewPath != null);
-					lblInternalName.Text = BrawlLib.getAudioLengthIfAny(node) ?? node.ToString();
-					Disposed += delegate(object o, EventArgs e) {
-						node.Dispose();
-					};
-				}
+			if (BrawlExts.Any(ext => _path.EndsWith(ext, StringComparison.InvariantCultureIgnoreCase))) {
+				button1.Visible = (BrawlLib.BrawlViewPath != null);
 			}
 		}
 

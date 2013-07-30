@@ -117,22 +117,7 @@ namespace CompareDir
         }
 
 		private static int usage(int returnValue) {
-			Console.Error.WriteLine("Usage: CompareDir [-g/-fhirx] [--openwith={PATH}] [left right [center]]");
-			Console.Error.WriteLine("");
-			Console.Error.WriteLine("-g: use GUI for everything (overrides all other options)");
-			Console.Error.WriteLine("    If no arguments are given, -g will be assumed.");
-			Console.Error.WriteLine("");
-			Console.Error.WriteLine("-i: use GUI to ask for directories and recursive setting (overrides -r)");
-			Console.Error.WriteLine("    If no directories are given, but -g is off, -i will be assumed.");
-			Console.Error.WriteLine("");
-			Console.Error.WriteLine("-f: show only filenames, not relative paths");
-			Console.Error.WriteLine("-h: output as color-coded HTML instead of plain text");
-			Console.Error.WriteLine("-r: search recursively");
-			Console.Error.WriteLine("-x: write to (and launch) a file on the desktop");
-			Console.Error.WriteLine("--openwith={PATH}: assume -x but use the program {PATH} to open the file");
-			Console.Error.WriteLine("");
-			Console.Error.WriteLine("-a: display About dialog");
-			Console.Error.WriteLine("-l: print license terms to stdout");
+			Console.Error.WriteLine(MainForm.COMMAND_LINE_ARGS);
 			return returnValue;
 		}
     }
