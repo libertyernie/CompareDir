@@ -90,6 +90,18 @@
     <Content Include="ProgressWindowWrapper.txt" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IRow.cs" />
+    <None Include="ConsoleText+FilenamesOnly.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenPlainText.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenHTMLInExcel.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenHTML.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="README" />
     <None Include="LICENSE" />
     <EmbeddedResource Include="About.resx">

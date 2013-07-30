@@ -122,9 +122,13 @@ namespace CompareDir {
 			List<IRow> rows = new List<IRow>();
 			rows.Add(new HeaderRow()
 			{
-				Left = dirL.FullName,
-				Center = dirC != null ? dirC.FullName : null,
-				Right = dirR.FullName
+				Left = filenameOnly ? dirL.Name :
+					   dirL.FullName,
+				Center = dirC == null ? null :
+						 filenameOnly ? dirC.Name :
+						 dirC.FullName,
+				Right = filenameOnly ? dirR.Name :
+						dirR.FullName
 			});
 			foreach (string s in filenames) {
 				IRow row;
