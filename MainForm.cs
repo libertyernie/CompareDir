@@ -228,40 +228,6 @@ namespace CompareDir {
 			}
 		}
 
-		/*private void excelSpreadsheetToolStripMenuItem_Click(object sender, EventArgs e) {
-			using (SaveFileDialog d = new SaveFileDialog()) {
-				d.Filter = "Microsoft Excel spreadsheet (*.xls)|*.xls";
-				d.DefaultExt = "xls";
-				d.AddExtension = true;
-				if (d.ShowDialog(this) == DialogResult.OK) {
-					HSSFWorkbook workbook = new HSSFWorkbook();
-					HSSFPalette palette = workbook.GetCustomPalette();
-					ISheet sheet = workbook.CreateSheet("Filenames");
-					IRow header = sheet.CreateRow(0);
-					if (dirC != null) {
-						header.CreateCell(0).SetCellValue(dirL.FullName);
-						header.CreateCell(1).SetCellValue(dirC.FullName);
-						header.CreateCell(2).SetCellValue(dirR.FullName);
-					} else {
-						header.CreateCell(0).SetCellValue(dirL.FullName);
-						header.CreateCell(1).SetCellValue(dirR.FullName);
-					}
-					palette.SetColorAtIndex(0x3c, FileLabel.Color_Match.Item1.R, FileLabel.Color_Match.Item1.G, FileLabel.Color_Match.Item1.B);
-					palette.SetColorAtIndex(0x3d, FileLabel.Color_NoMatch.Item1.R, FileLabel.Color_NoMatch.Item1.G, FileLabel.Color_NoMatch.Item1.B);
-					palette.SetColorAtIndex(0x3e, FileLabel.Color_OnlyOne.Item1.R, FileLabel.Color_OnlyOne.Item1.G, FileLabel.Color_OnlyOne.Item1.B);
-					palette.SetColorAtIndex(0x3f, FileLabel.Color_Orig.Item1.R, FileLabel.Color_Orig.Item1.G, FileLabel.Color_Orig.Item1.B);
-					int rowIndex = 1;
-					int columns = dirC != null ? 3 : 2;
-					foreach (Row row in rows) {
-						row.FillSpreadsheetRow(sheet.CreateRow(rowIndex++), columns);
-					}
-					using (FileStream fs = new FileStream(d.FileName, FileMode.Create, FileAccess.Write)) {
-						workbook.Write(fs);
-					}
-				}
-			}
-		}*/
-
 		private void hTMLToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (SaveFileDialog d = new SaveFileDialog()) {
 				d.Filter = "HTML document (*.html, *.htm)|*.*html;*.htm";
@@ -269,6 +235,7 @@ namespace CompareDir {
 				d.AddExtension = true;
 				if (d.ShowDialog(this) == DialogResult.OK) {
 					File.WriteAllText(d.FileName, html(rows));
+					System.Diagnostics.Process.Start(d.FileName);
 				}
 			}
 		}
