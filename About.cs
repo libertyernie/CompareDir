@@ -27,12 +27,6 @@ namespace CompareDir {
 			software_title.Text = ((AssemblyTitleAttribute)a.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title;
 			version.Text = a.GetName().Version.ToString();
 			copyright.Text = ((AssemblyCopyrightAttribute)a.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
-			Assembly dll = BrawlLib.Assembly;
-			if (dll != null) {
-				brawllib.Text = "Using " +
-				((AssemblyTitleAttribute)dll.GetCustomAttributes(typeof(AssemblyTitleAttribute), false)[0]).Title + "\r\n" +
-				((AssemblyCopyrightAttribute)dll.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
-			}
 
 			textBox1.Text = License;
 		}

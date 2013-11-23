@@ -16,6 +16,22 @@ namespace CompareDir {
 
 		private List<IRow> rows;
 		private bool recursive;
+		public static string COMMAND_LINE_ARGS = @"Usage: CompareDir [-g/-fhirx] [--openwith={PATH}] [left right [center]]
+
+-g: use GUI for everything (overrides all other options)
+    If no arguments are given, -g will be assumed.
+
+-i: use GUI to ask for directories and recursive setting (overrides -r)
+    If no directories are given, but -g is off, -i will be assumed.
+
+-f: show only filenames, not relative paths
+-h: output as color-coded HTML instead of plain text
+-r: search recursively
+-x: write to (and launch) a file on the desktop
+--openwith={PATH}: assume -x but use the program {PATH} to open the file
+
+-a: display About dialog
+-l: print license terms to stdout";
 
 		public MainForm(DirectoryInfo dir1, DirectoryInfo dir2, DirectoryInfo dir3,
 						bool? recursiveOverride = null) {
@@ -24,7 +40,7 @@ namespace CompareDir {
 			this.dirC = dir3;
 			InitializeComponent();
 
-			using (Form loading = new Loading(BrawlLib.Assembly != null ? "BrawlLib loaded" : "Select directory")) {
+			using (Form loading = new Loading("Select directory")) {
 				loading.Show();
 				if (dir1 == null || dir2 == null) {
 					bool b = StartupOptions.ChangeLeftRight(loading, ref dirL, ref dirR);
@@ -106,9 +122,13 @@ namespace CompareDir {
 			List<IRow> rows = new List<IRow>();
 			rows.Add(new HeaderRow()
 			{
-				Left = dirL.FullName,
-				Center = dirC != null ? dirC.FullName : null,
-				Right = dirR.FullName
+				Left = filenameOnly ? dirL.Name :
+					   dirL.FullName,
+				Center = dirC == null ? null :
+						 filenameOnly ? dirC.Name :
+						 dirC.FullName,
+				Right = filenameOnly ? dirR.Name :
+						dirR.FullName
 			});
 			foreach (string s in filenames) {
 				IRow row;
@@ -248,6 +268,20 @@ namespace CompareDir {
 				}
 			}
 			this.Update();
+		}
+
+		private void commandLineArgumentsToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (Form form = new Form()) {
+				form.Width = 400;
+				form.Height = 250;
+				using (TextBox textBox = new TextBox()) {
+					textBox.Dock = DockStyle.Fill;
+					textBox.Text = COMMAND_LINE_ARGS;
+					textBox.Multiline = true;
+					form.Controls.Add(textBox);
+					form.ShowDialog(this);
+				}
+			}
 		}
 	}
 }

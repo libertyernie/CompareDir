@@ -29,7 +29,7 @@ namespace CompareDir
 					execute = true;
 					openWith = s.Substring(11);
 				} else if (s == "-l") {
-					Console.Error.WriteLine(About.License);
+					Console.WriteLine(About.License);
 					return 0;
 				} else if (s == "-a") {
 					new About().ShowDialog();
@@ -117,18 +117,7 @@ namespace CompareDir
         }
 
 		private static int usage(int returnValue) {
-			Console.Error.WriteLine("Usage: CompareDir [-g/-fhirx] [left right [center]]");
-			Console.Error.WriteLine("  -g: use GUI for everything (overrides all other options)");
-			Console.Error.WriteLine("  -i: use GUI to ask for directories and recursive setting (overrides -r)");
-			Console.Error.WriteLine("  -r: search recursively");
-			Console.Error.WriteLine("  -f: show only filenames, not relative paths");
-			Console.Error.WriteLine("  -h: output as color-coded HTML instead of plain text");
-			Console.Error.WriteLine("  -x: write to (and launch) a file on the desktop");
-			Console.Error.WriteLine("");
-			Console.Error.WriteLine("  -a: display About dialog");
-			Console.Error.WriteLine("  -l: display license terms");
-			Console.Error.WriteLine("");
-			Console.Error.WriteLine("  If less than two directories are given, -i will be assumed; if no arguments are given, -g will be assumed.");
+			Console.Error.WriteLine(MainForm.COMMAND_LINE_ARGS);
 			return returnValue;
 		}
     }
